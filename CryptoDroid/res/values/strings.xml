@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">cryptoDroid</string>
+    <string name="txt_ads">Advertise</string>
+    <string name="txtFile">Cifrar Archivo</string>
+    <string name="txtText">Cifrar Texto</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_file_encrypter">File Encrypter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_text_encrypter">Text Encrypter</string>
+    <string name="txtKey">Clave</string>
+    <string name="txtConfirmKey">Confirma Clave</string>
+    <string name="txt2Encrypt">Texto a cifrar</string>
+    <string name="txtDesencrypt">Descifrar</string>
+    <string name="txtEncrypt">Cifrar</string>
+    <string name="ruta_label">Ruta:</string>
+
+</resources>
