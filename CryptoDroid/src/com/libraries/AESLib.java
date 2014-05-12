@@ -8,7 +8,7 @@ public class AESLib {
 	private static byte Nr; // Numero de rondas totales. 128->10; 192->12; 256->14
 	private static byte Nk; // Numero de columnas de la matriz de clave. 128->4; 192->6; 256->8
 	private static byte Nb; // Numero de columnas de la matriz de estado. Siempre será 4 (bloque 128bits)
-	
+
 	// Matriz de sustitución bytesub
 	private static short[][] scaja = {
 		{0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76},
@@ -93,14 +93,14 @@ public class AESLib {
 		Nb = 4; // Nº columnas de la matriz de estado (siempre es 4)
 	}
 
-	/** FUNCIONES PRIVADAS **
-	************************/
+	/** FUNCIONES COMPLEMENTARIAS **
+	********************************/
 	
 	/**
 	 * Calcula la operacion XOR entre dos arrays de bytes del mismo tamaño
-	 * @param a
-	 * @param b
-	 * @return
+	 * @param a		Primer array de bytes
+	 * @param b		Segundo array de bytes
+	 * @return		Un array de bytes con el resultado de aplicar la XOR a 'a' y 'b'
 	 */
 	private static byte[] calcularXORArray(byte[] a, byte[] b) {
 		int tam = a.length;
@@ -114,8 +114,8 @@ public class AESLib {
 	
 	/**
 	 * Rota UNA posicion a la IZQUIERDA un array de bytes
-	 * @param fila
-	 * @return
+	 * @param fila	Array de bytes a rotar
+	 * @return		Array con un byte rotado una posición a la izquierda
 	 */
 	private static byte[] RotLeft(byte[] fila) {
 		
@@ -132,8 +132,8 @@ public class AESLib {
 	
 	/**
 	 * Rota UNA posicion a la DERECHA un array de bytes
-	 * @param fila
-	 * @return
+	 * @param fila		Array de bytes a rotar
+	 * @return			Array con un byte rotado una posición a la derecha
 	 */
 	private static byte[] RotRight(byte[] fila) {
 		
@@ -153,8 +153,8 @@ public class AESLib {
 	 * Aplica la s-caja a cada uno de los bytes del array que se le pasa como parámetro.
 	 * Los elementos de la s_caja son cadenas de 16bits (short).
 	 * 0xFF convierte el decimal con signo (short) en un decimal de 0 a 255
-	 * @param b
-	 * @return
+	 * @param b		Array de bytes a aplicar la s_caja
+	 * @return		Array de bytes con la sustitución con la s_caja
 	 */
 	private static byte[] Sub(byte[] b) {
 		byte[] tmp = new byte[b.length];
@@ -169,7 +169,7 @@ public class AESLib {
 	 * Calcula la operación mixcolumn para cada par.
 	 * @param a		Byte de la matriz_estado
 	 * @param b		Byte de la matriz_mixcolumns (0x01, 0x02 ó 0x03)
-	 * @return
+	 * @return		Resultado de aplicar la operación mixcolumn al par
 	 */
 	private byte calcularByteColumn(byte a, byte b) {
 		byte tmp = 0;
@@ -200,7 +200,7 @@ public class AESLib {
 	 * @param Nr	Nº Rondas a aplicar
 	 * @return 		Devuelve una matriz de matrices. Ej. Para Nr=10 (+1 ronda inicial) tendra 44 filas (11 matrices)
 	 */
-	public static byte[][] crearSubclaves(byte[] K) {
+	private static byte[][] crearSubclaves(byte[] K) {
 
 		byte[][] W = new byte[(Nr+1)*Nb][4];
 		byte i = 0;
@@ -234,12 +234,11 @@ public class AESLib {
 	/**
 	 * Por cada elemento de la matriz de estados se divide en dos partes de 4bits (fila y columna) y se busca el nuevo valor
 	 * en la s_caja.
-	 * @param matriz_estado
-	 * @return
-	 */
-	public static byte[][] byteSub(byte[][] matriz_estado) {
-		// Cada elem de la matriz tiene 8bits
-		
+	 * @param matriz_estado		Matriz estado
+	 * @return					Resultado de aplicar la operación byteSub a la matriz estado
+	 */	
+	private static byte[][] byteSub(byte[][] matriz_estado) {
+		// Cada elem de la matriz tiene 8bits		
 		byte[][] tmp = new byte[matriz_estado.length][matriz_estado[0].length];
 		
 		for(int fil=0; fil<matriz_estado.length ;fil++)
@@ -249,11 +248,11 @@ public class AESLib {
 	}
 	
 	/**
-	 * Rotación a izquierda tantos bytes como indique el numero de fila
-	 * @param matriz_estado
-	 * @return
+	 * Rotación a izquierda tantos bytes como indique el numero de fila.
+	 * @param matriz_estado		Matriz de estado
+	 * @return					Resultado de aplicar la operación shiftRow a la matriz de estado
 	 */
-	public byte[][] shiftRow(byte[][] matriz_estado) {
+	private byte[][] shiftRow(byte[][] matriz_estado) {
 		byte num_filas = (byte) matriz_estado.length;
 		byte[][] tmp = new byte[num_filas][matriz_estado[0].length];
 		
@@ -272,12 +271,12 @@ public class AESLib {
 	/**
 	 * Aplica la operación XOR a cada uno de los elementos de matriz_estado con la matriz_subclaves (Por columnas).
 	 * La matriz de subclaves contiene (Nr+1)*4 filas.
-	 * @param matriz_estado
-	 * @param matriz_subclaves
+	 * @param matriz_estado		Matriz de estado
+	 * @param matriz_subclaves	Matriz de subclaves
 	 * @param ronda				Nº de ronda actual
-	 * @return
+	 * @return					Resultado de aplicar la operación XOR a cada columna de las matrices estado y subclaves.
 	 */
-	public static byte[][] addRoundKey(byte[][] matriz_estado, byte[][] matriz_subclaves, int ronda) {
+	private static byte[][] addRoundKey(byte[][] matriz_estado, byte[][] matriz_subclaves, int ronda) {
 		byte[][] tmp = new byte[matriz_estado.length][matriz_estado[0].length];
 		byte Nb = (byte) matriz_estado.length; // Nº columnas matriz estado
 		
@@ -290,10 +289,10 @@ public class AESLib {
 	
 	/**
 	 * Devuelve la nueva matriz_estado despues de realizar la operación mixcolumn a toda la matriz estado anterior.
-	 * @param matriz_estado
-	 * @return
+	 * @param matriz_estado		Matriz de estado
+	 * @return					Resultado de aplicar mixColumns a la matriz de estado.
 	 */
-	public byte[][] mixColumns(byte[][] matriz_estado) {
+	private byte[][] mixColumns(byte[][] matriz_estado) {
 		byte Nb = (byte) matriz_estado[0].length; 		// Nº columnas de la matriz_estado
 		byte num_filas = (byte) matriz_estado.length; 	// Nº filas de la matriz_estado
 		byte[][] tmp = new byte[num_filas][Nb];
@@ -309,7 +308,6 @@ public class AESLib {
 		return tmp;
 	}
 	
-	
 	/**
 	 * Cifra un bloque de datos de 128bits.
 	 * @param bloque_datos		Array de datos a encriptar. Deben ser 128bits.
@@ -317,7 +315,7 @@ public class AESLib {
 	 * @param Nr				Nº totales de rondas
 	 * @return					Array con el bloque cifrado.
 	 */
-	public byte[] cifrarBloque(byte[] bloque_datos, byte[][] matriz_subclaves) {
+	private byte[] cifrarBloque(byte[] bloque_datos, byte[][] matriz_subclaves) {
 		
 		byte[] result = new byte[bloque_datos.length];
 		byte[][] matriz_estado = new byte[4][4]; // Matriz cuadrada 4x4 (4*4*8=128bits)
@@ -358,7 +356,7 @@ public class AESLib {
 		byte[] bloque = new byte[16];
 		int tam_data = data.length;
 		int tam_bloque = bloque.length;
-		int padding=0; // Nº de bytes que hay que rellenar
+		int padding=16; // Nº de bytes que hay que rellenar (Como minimo un bloque de 16bytes)
 		if(tam_data%16!=0)// Si el bloque es multiplo de 16 entonces no habra que rellenar. (padding=0)
 			padding = 16 - tam_data%16;
 		byte[] result = new byte[tam_data + padding];
@@ -370,15 +368,19 @@ public class AESLib {
 			System.arraycopy(bloque, 0, result, i*16, tam_bloque);
 		}
 		
-		// Comprobar si hay que meter relleno en el ultimo bloque
-		if(tam_data%16!=0) {
+		// Añadir el relleno (siempre hay relleno)
+		if(tam_data%16!=0) {// Bloque con datos y padding
 			System.arraycopy(data, num_bloques*tam_bloque, bloque, 0, tam_bloque-padding);
 			for(int i=tam_bloque-padding;i<tam_bloque;i++)
 				bloque[i] = (byte) padding;
 					
-			bloque = cifrarBloque(bloque,matriz_subclaves);
-			System.arraycopy(bloque, 0, result, num_bloques*16, tam_bloque);
+		} else { // Bloque entero de padding
+			for(int i=tam_bloque;i<tam_bloque;i++)
+				bloque[i] = (byte) padding;
 		}
+		
+		bloque = cifrarBloque(bloque,matriz_subclaves);
+		System.arraycopy(bloque, 0, result, num_bloques*16, tam_bloque);
 		
 		return result;
 	}
@@ -388,10 +390,10 @@ public class AESLib {
 	
 	/**
 	 * Rotación a derecha tantos bytes como indique el numero de fila
-	 * @param matriz_estado
-	 * @return
+	 * @param matriz_estado		Matriz de estado
+	 * @return					Resultado de aplicar la operación shiftRow a la inversa
 	 */
-	public static byte[][] invShiftRow(byte[][] matriz_estado) {
+	private static byte[][] invShiftRow(byte[][] matriz_estado) {
 		byte num_filas = (byte) matriz_estado.length;
 		byte[][] tmp = new byte[num_filas][matriz_estado[0].length];
 		
@@ -411,7 +413,7 @@ public class AESLib {
 	 * Calcula la operación mixcolumn inversa para cada par.
 	 * @param a		Byte de la matriz_estado
 	 * @param b		Byte de la inv_matriz_mixcolumns
-	 * @return
+	 * @return		Resultado de aplicar la operación mixColum para cada par
 	 */
 	private static byte invCalcularByteColumn(byte a, byte b) {
 		byte aa = a, bb = b, r = 0, t;
@@ -428,10 +430,10 @@ public class AESLib {
 	}
 	/**
 	 * Devuelve la nueva matriz_estado despues de realizar la operación mixcolumn a toda la matriz estado anterior.
-	 * @param matriz_estado
-	 * @return
+	 * @param matriz_estado		Matriz de estado
+	 * @return					Resultado de aplicar la operación mixColum para toda la matriz de estado
 	 */
-	public static byte[][] invMixColumns(byte[][] matriz_estado) {
+	private static byte[][] invMixColumns(byte[][] matriz_estado) {
 		byte Nb = (byte) matriz_estado[0].length; 		// Nº columnas de la matriz_estado
 		byte num_filas = (byte) matriz_estado.length; 	// Nº filas de la matriz_estado
 		byte[][] tmp = new byte[num_filas][Nb];
@@ -451,8 +453,8 @@ public class AESLib {
 	 * Aplica la inv_scaja a cada uno de los bytes del array que se le pasa como parámetro.
 	 * Los elementos de la s_caja son cadenas de 16bits (short).
 	 * 0xFF convierte el decimal con signo (short) en un decimal de 0 a 255
-	 * @param b
-	 * @return
+	 * @param b		Array de bytes a aplicar la s_caja a la inversa
+	 * @return		Array de bytes con la sustitución con la s_caja	a la inversa
 	 */
 	private static byte[] invSub(byte[] b) {
 		byte[] tmp = new byte[b.length];
@@ -466,10 +468,10 @@ public class AESLib {
 	/**
 	 * Por cada elemento de la matriz de estados se divide en dos partes de 4bits (fila y columna) y se busca el nuevo valor
 	 * en la inv_scaja.
-	 * @param matriz_estado
-	 * @return
+	 * @param matriz_estado		Matriz de estado
+	 * @return					Resultado de aplicar la operación byteSub a toda la matriz de estado
 	 */
-	public static byte[][] invByteSub(byte[][] matriz_estado) {
+	private static byte[][] invByteSub(byte[][] matriz_estado) {
 		// Cada elem de la matriz tiene 8bits
 		byte[][] tmp = new byte[matriz_estado.length][matriz_estado[0].length];
 		
@@ -479,7 +481,13 @@ public class AESLib {
 		return tmp;
 	}
 	
-	public static byte[] descifrarBloque(byte[] bloque, byte[][] matriz_subclaves) {
+	/**
+	 * Descifra un bloque de datos de 16bytes
+	 * @param bloque			Bloque de 16bytes a descifrar
+	 * @param matriz_subclaves	Matriz de subclaves
+	 * @return					Bloque de 16bytes cifrado
+	 */
+	private static byte[] descifrarBloque(byte[] bloque, byte[][] matriz_subclaves) {
 		
 		byte[] tmp = new byte[bloque.length];
 		byte[][] matriz_estado = new byte[4][Nb];
@@ -506,6 +514,12 @@ public class AESLib {
 		return tmp;
 	}
 	
+	/**
+	 * Descifra todo un conjunto de datos.
+	 * @param data	Array de bytes con el datagrama a descifrar
+	 * @param key	Clave usada a la hora de cifrar
+	 * @return		Array de bytes con el datagrama descifrado
+	 */
 	public static byte[] descifrar(byte[] data, byte[] key){
 
 		int i;
@@ -524,21 +538,32 @@ public class AESLib {
 		bloque = descifrarBloque(bloque, matriz_subclaves);
 		System.arraycopy(bloque, 0, tmp, i - 16, bloque.length);
 
-		// Solo si hay padding ¿Como?
-		//TODO
-		if(tmp[tmp.length-1]>1 && tmp[tmp.length-1]<16)
-			tmp = deletePadding(tmp);
+		tmp = borrarPadding(tmp);
 
 		return tmp;
 	}
 	
-	private static byte[] deletePadding(byte[] data) {
+	/**
+	 * Elimina el padding añadido en la operación de cifrado
+	 * @param data		Array de datos con padding a eliminar
+	 * @return			Array de datos con padding eliminado
+	 */
+	private static byte[] borrarPadding(byte[] data) {
 		
-		byte num_padding = data[data.length-1];
-		byte[] tmp = new byte[data.length-num_padding];		
-		System.arraycopy(data,0,tmp,0,data.length-num_padding);
+		int tam_data = data.length;
+		byte num_padding = data[tam_data-1];// El ultimo byte tiene el numero de padding
+		boolean borrar=true;
+		
+		// Comprobar que los ultimos bytes sean == a num_padding (Comprobar que es correcto)
+		for(int i=tam_data-1; i>tam_data-1-num_padding ;i--) {
+			if(data[i] != num_padding)
+				borrar=false;				
+		}
+		byte[] tmp = new byte[data.length-num_padding];	
+		if(borrar)
+			System.arraycopy(data,0,tmp,0,tam_data-num_padding);
+		
 		return tmp;
 	}
 	
 }
-
