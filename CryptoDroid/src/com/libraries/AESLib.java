@@ -520,7 +520,7 @@ public class AESLib {
 	 * @param key	Clave usada a la hora de cifrar
 	 * @return		Array de bytes con el datagrama descifrado
 	 */
-	public static byte[] descifrar(byte[] data, byte[] key){
+	public byte[] descifrar(byte[] data, byte[] key){
 
 		int i;
 		byte[] tmp = new byte[data.length];
