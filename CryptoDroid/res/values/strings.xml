@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">cryptoDroid</string>
-    <string name="txt_ads">Advertise</string>
+    <string name="app_name">CryptoDroid</string>
+    <string name="txt_ads">Publicidad</string>
     <string name="txtFile">Cifrar Archivo</string>
     <string name="txtText">Cifrar Texto</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_file_encrypter">Buscador de archivos</string>
-    <string name="title_activity_text_encrypter">Cifrador de texto</string>
+    <string name="title_activity_file_encrypter">Cifrador | Decifrador Fichero</string>
+    <string name="title_activity_text_encrypter">Cifrador | Decifrador Texto</string>
     <string name="txtKey">Clave</string>
     <string name="txtConfirmKey">Confirma Clave</string>
     <string name="txt2Encrypt">Texto a cifrar</string>
-    <string name="txtDesencrypt">Descifrar</string>
+    <string name="txtEncryptText">Cifrar | Decifrar Texto</string>
+    <string name="txtEncryptFile">Cifrar | Decifrar Fichero</string>
+    <string name="txtPegar">Pegar</string>
+    <string name="txtCompartir">Compartir</string>
+    <string name="txtCopiar">Copiar</string>
     <string name="txtEncrypt">Cifrar</string>
+    <string name="txtDesencrypt">Decifrar</string>
     <string name="ruta_label">Ruta:</string>
+    <string name="txt_cryptFile">Cifrar</string>
+    <string name="txt_decryptFile">Descifrar</string>
+    <string name="txtCancel">Cancelar</string>
+    <string name="txt_keyLenght">Elige la longitud de la clave</string>
+    <string name="txt128">128</string>
+    <string name="txt192">192</string>
+    <string name="txt256">256</string>
+    <string name="txt_guardarEnFichero">Guardar en fichero?</string>
+    <string name="txtShare">Compartir</string>
 
 </resources>

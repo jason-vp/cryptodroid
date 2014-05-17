@@ -1,36 +1,103 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+    		xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        android:overScrollMode="always" 
+        android:isScrollContainer="true" 
+        android:scrollbarAlwaysDrawVerticalTrack="true" 
+        android:scrollbarStyle="outsideInset" 
+        android:scrollbars="vertical"
+    	android:scrollbarFadeDuration="2000"
+    	android:scrollbarSize="5dp"
+        >
+
+<RelativeLayout 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     tools:context="com.activities.TextEncrypterActivity$PlaceholderFragment" >
 
     <TextView
         android:id="@+id/tvAds"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="20dp"
         android:text="@string/txt_ads" 
         android:layout_marginTop="0dp"
         android:background="@drawable/draw_ads"
         android:gravity="center"
-        
+        android:textColor="#000000"
         />
+    
+    
+    
+    <TextView
+        android:id="@+id/txtLenghtKey"
+        android:layout_below="@+id/tvAds"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="@string/txt_keyLenght" 
+        android:layout_marginTop="5dp"
+        android:background="#FCFCFC"
+        android:gravity="center"
+        android:textColor="#000000"
+        />
+    <!-- Elección de la longitud de la clave -->
+  		<RadioGroup
+	        android:id="@+id/radioKey"
+	        android:layout_width="fill_parent"
+	        android:layout_height="40dp"
+	        android:orientation="horizontal"
+	         android:layout_below="@+id/txtLenghtKey"
+	         android:gravity="center"
+	         android:background="#020852"
+	          >
+ 
+        <RadioButton
+            android:id="@+id/radio128"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt128" 
+            android:textColor="#FAFAFC" 
+             />
+        
+        <RadioButton
+            android:id="@+id/radio192"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt192" 
+            android:textColor="#FAFAFC" 
+              />
+        
+        <RadioButton
+            android:id="@+id/radio256"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt256" 
+            android:textColor="#FAFAFC"            
+           />        
+          <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION QUE RECUPERA EL VALOR RADIO" despues de la última línea -->
+    </RadioGroup>
+    
+  		<!-- Clave  -->
+    
     <EditText 
         android:id="@+id/etxtKey"
         android:gravity="center"
         android:inputType="textPassword"
         android:hint="@string/txtKey"
-        android:layout_below="@+id/tvAds"
+        android:layout_below="@+id/radioKey"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_height="40dp"
         android:layout_width="fill_parent"
         android:background="@drawable/draw_edit_text"
         android:layout_centerHorizontal="true"
+        android:textColor="#000000"
         />
     
     <EditText 
@@ -40,30 +107,83 @@
         android:hint="@string/txtConfirmKey"
         android:layout_below="@+id/etxtKey"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_height="40dp"
         android:layout_width="fill_parent"
         android:background="@drawable/draw_edit_text"
         android:layout_centerHorizontal="true"
+        android:textColor="#000000"
         />
     
+    <!-- Botones Copiar | Compartir | Pegar -->
+    
+     <LinearLayout
+        android:id="@+id/multiBtns"
+        android:layout_below="@+id/etxtConfirmKey"
+        android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp" 
+        android:orientation="horizontal"
+        >
+        
+        <Button
+            android:id="@+id/btnCopiar"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/copy"
+            android:textColor="#000000"
+            />
+        <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION COPIAR" despues de la última línea -->
+        <Button
+            android:id="@+id/btnCompartir"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/share"
+            android:textColor="#000000"
+            />
+        <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION COMPARTIR" despues de la última línea -->
+        <Button
+            android:id="@+id/btnPegar"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/paste"
+            android:textColor="#000000"
+            />
+            <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION PEGAR" despues de la última línea -->
+    </LinearLayout>
+    
+     <!-- Text to encrypt -->
     <EditText 
         android:id="@+id/etxt2Encrypt"
         android:gravity="center"
         android:inputType="textMultiLine"
         android:hint="@string/txt2Encrypt"
-        android:layout_below="@+id/etxtConfirmKey"
+        android:layout_below="@+id/multiBtns"
         android:layout_marginTop="10dp"
-        android:layout_height="180dp"
+        android:layout_height="135dp"
         android:layout_width="fill_parent"
         android:background="@drawable/draw_edit_text"
+        android:textColor="#000000"
         />
-    <LinearLayout
-        android:id="@+id/lBtns"
+    <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION DECIFRAR" despues de la última línea -->
+    <CheckBox
+        android:id="@+id/checkGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
         android:layout_below="@+id/etxt2Encrypt"
         android:layout_marginTop="5dp"
+        android:text="@string/txt_guardarEnFichero" />
+    
+    <!--  Buttons Encrypt and Decrypt -->
+    <LinearLayout
+        android:id="@+id/lBtns"
+        android:layout_below="@+id/checkGuardar"
+        android:layout_marginTop="5dp"
         android:layout_width="fill_parent"
-        android:layout_height="50dp" 
+        android:layout_height="30dp" 
         android:orientation="horizontal">
         
         <Button
@@ -71,20 +191,23 @@
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:text="@string/txtEncrypt"
+            android:textColor="#000000"
             android:layout_marginRight="10dp"
             android:background="@drawable/draw_home_btn"
             />
+        <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION CIFRAR" despues de la última línea -->
         
         <Button
             android:id="@+id/btnDesencrypt"
             android:layout_width="140dp"
             android:layout_height="match_parent"
             android:text="@string/txtDesencrypt"
-            android:layout_marginLeft="10dp"
+            android:textColor="#000000"
+            android:layout_marginRight="10dp"
             android:background="@drawable/draw_home_btn"
             />
-            
+             <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION DECIFRAR" despues de la última línea -->
     </LinearLayout>
 
-
 </RelativeLayout>
+</ScrollView>

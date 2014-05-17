@@ -6,17 +6,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
-import com.libraries.AESLib;
-
 import android.os.Bundle;
 import android.os.Environment;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 public class FileExplorerActivity extends Activity {
@@ -39,13 +45,33 @@ public class FileExplorerActivity extends Activity {
 		listar_directorio((String) path_actual.getText());
 		
 		listview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+			@SuppressLint("NewApi") public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				if(files[position].isDirectory()) {
 					path_actual.setText(path_actual.getText() +"/"+ files[position].getName());
 					listar_directorio(files[position].getAbsolutePath());					
 				} else {
 					// Cifrar el archivo
 					
+					//Obtencion de la dimensión de la pantalla
+					Display d = getWindowManager().getDefaultDisplay();
+					Point p = new Point();
+					d.getSize(p);
+					
+				//	setContentView(R.layout.pop_up);
+					LayoutInflater inflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+					View popupview = inflator.inflate(R.layout.pop_up,  null);
+					View parent = inflator.inflate(R.layout.activity_file_encrypter, null);
+					final PopupWindow pw = new PopupWindow(popupview, p.x , p.y/2, true);
+					
+					pw.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);
+					Button close = (Button)popupview.findViewById(R.id.btnCancel);
+					close.setOnClickListener(new OnClickListener(){
+						public void onClick(View popupview){
+							pw.dismiss();
+						}
+					});
+					 
+				
 				}
 			}
 		});

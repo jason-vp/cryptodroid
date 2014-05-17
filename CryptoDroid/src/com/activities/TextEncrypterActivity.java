@@ -22,7 +22,7 @@ public class TextEncrypterActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
+			}
 	}
 
 	@Override
@@ -60,6 +60,14 @@ public class TextEncrypterActivity extends ActionBarActivity {
 					container, false);
 			return rootView;
 		}
+	}
+	
+	/**
+	 * Borra el hint cuando se hace el click para introducir la contraseña
+	 */	
+	public void deleteHint(){
+		
+		
 	}
 
 }
