@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:layout_marginTop="10dp"
+    android:layout_gravity="center"
+    android:background="#FAFCFA"
+    >
+    <TextView
+        android:id="@+id/tvAds"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="@string/txt_ads" 
+        android:layout_marginTop="0dp"
+        android:background="@drawable/draw_ads"
+        android:gravity="center"
+        android:textColor="#000000"
+        />
+    <TextView
+        android:id="@+id/txtLenghtKey"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="@string/txt_keyLenght" 
+        android:layout_marginTop="5dp"
+        android:background="#FCFCFC"
+        android:gravity="center"
+        android:textColor="#000000"
+        />
+  
+    <!-- Elección de la longitud de la clave -->
+  		<RadioGroup
+	        android:id="@+id/radioKey"
+	        android:layout_width="fill_parent"
+	        android:layout_height="40dp"
+	        android:orientation="horizontal"
+	         android:layout_below="@+id/txtLenghtKey"
+	         android:gravity="center"
+	         android:background="#020852"
+	          >
+ 
+        <RadioButton
+            android:id="@+id/radio128"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt128" 
+            android:textColor="#FAFAFC" 
+            />
+        
+        <RadioButton
+            android:id="@+id/radio192"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt192" 
+            android:textColor="#FAFAFC"
+            />
+        
+        <RadioButton
+            android:id="@+id/radio256"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt256" 
+            android:textColor="#FAFAFC"            
+           />        
+    </RadioGroup>
+    
+  		<!-- Clave  -->
+    
+    <EditText 
+        android:id="@+id/etxtKey"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:hint="@string/txtKey"
+        android:layout_below="@+id/radioKey"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="40dp"
+        android:layout_width="fill_parent"
+        android:background="@drawable/draw_edit_text"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        />
+    
+    <EditText 
+        android:id="@+id/etxtConfirmKey"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:hint="@string/txtConfirmKey"
+        android:layout_below="@+id/etxtKey"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="40dp"
+        android:layout_width="fill_parent"
+        android:background="@drawable/draw_edit_text"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        />
+     
+    <!--  Buttons Encrypt and Decrypt -->
+    <LinearLayout
+        android:id="@+id/lBtns"
+        android:layout_below="@+id/etxtConfirmKey"
+        android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp" 
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        
+        <Button
+            android:id="@+id/btnEncrypt"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/txtEncrypt"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/draw_home_btn"
+            android:textColor="#000000"
+            />
+        <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION DECIFRAR" despues de la última línea -->
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="@string/txtCancel"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/draw_home_btn"
+            android:textColor="#000000"
+            />
+        <Button
+            android:id="@+id/btnDesencrypt"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/txtDesencrypt"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/draw_home_btn"
+            android:textColor="#000000"
+            />
+        <!-- Añadir la linea android:onClick="NOMBRE DE LA FUNCION DECIFRAR" despues de la última línea -->
+    </LinearLayout>   
+</RelativeLayout>

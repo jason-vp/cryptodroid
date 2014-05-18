@@ -28,5 +28,6 @@
     <string name="txt256">256</string>
     <string name="txt_guardarEnFichero">Guardar en fichero?</string>
     <string name="txtShare">Compartir</string>
+    <string name="directory_empty">Carpeta vacía</string>
 
 </resources>
