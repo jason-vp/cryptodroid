@@ -2,28 +2,38 @@ package com.activities;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Arrays;
+import com.controller.CipherBox;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FileExplorerActivity extends Activity {
 	
@@ -32,19 +42,23 @@ public class FileExplorerActivity extends Activity {
 	private ListView listview;
 	private File[] files = null;
 	private String path_raiz = null;
+	private String archivo = null;
+	View popupview;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_explorer);
 		
-		path_raiz = Environment.getRootDirectory().getAbsolutePath();
+		//path_raiz = Environment.getExternalStorageDirectory().getAbsolutePath();
+		path_raiz = "/";
 		path_actual = (TextView)findViewById(R.id.label_path);
 		path_actual.setText(path_raiz);
 
 		listar_directorio((String) path_actual.getText());
 		
 		listview.setOnItemClickListener(new OnItemClickListener() {
+			@Override
 			@SuppressLint("NewApi") public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				if(files[position].isDirectory()) {
 					path_actual.setText(path_actual.getText() +"/"+ files[position].getName());
@@ -59,19 +73,74 @@ public class FileExplorerActivity extends Activity {
 					
 				//	setContentView(R.layout.pop_up);
 					LayoutInflater inflator = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-					View popupview = inflator.inflate(R.layout.pop_up,  null);
+					popupview = inflator.inflate(R.layout.pop_up,  null);
 					View parent = inflator.inflate(R.layout.activity_file_encrypter, null);
 					final PopupWindow pw = new PopupWindow(popupview, p.x , p.y/2, true);
 					
 					pw.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);
 					Button close = (Button)popupview.findViewById(R.id.btnCancel);
 					close.setOnClickListener(new OnClickListener(){
+						@Override
 						public void onClick(View popupview){
 							pw.dismiss();
 						}
 					});
 					 
-				
+					archivo=files[position].getAbsolutePath();
+					final Button butcifrar = (Button) popupview.findViewById(R.id.btnEncrypt);
+					
+					butcifrar.setOnClickListener(new OnClickListener() {	
+						public void onClick(View v) {	
+							Context ctx=getApplicationContext();
+							Toast t = Toast.makeText(ctx, "Procesando", Toast.LENGTH_LONG );
+							t.show();
+							TextView pass = (TextView) popupview.findViewById(R.id.etxtKey);
+							RadioGroup rg = (RadioGroup) popupview.findViewById(R.id.radioKey);
+							CipherBox cb = new CipherBox(pass.getText().toString().toCharArray(), Integer.parseInt(((RadioButton)popupview.findViewById(rg.getCheckedRadioButtonId() )).getText().toString()));
+							try {
+								cb.cifrarFichero(archivo, archivo+".crypt");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} 
+
+								t.cancel();
+								t = Toast.makeText(ctx, "Archivo cifrado creado en " + archivo + ".crypt", Toast.LENGTH_SHORT );
+								t.show();
+								pw.dismiss();
+								
+								
+							}
+					});
+					
+					
+					final Button butdescifrar = (Button) popupview.findViewById(R.id.btnDesencrypt);
+					
+					butdescifrar.setOnClickListener(new OnClickListener() {	
+						public void onClick(View v) {	
+							String sucio = archivo;
+							archivo= sucio.substring(0, sucio.length()-6);
+							Context ctx=getApplicationContext();
+							Toast t = Toast.makeText(ctx, "Procesando", Toast.LENGTH_LONG );
+							t.show();
+							TextView pass = (TextView) popupview.findViewById(R.id.etxtKey);
+							RadioGroup rg = (RadioGroup) popupview.findViewById(R.id.radioKey);
+							CipherBox cb = new CipherBox(pass.getText().toString().toCharArray(), Integer.parseInt(((RadioButton)popupview.findViewById(rg.getCheckedRadioButtonId() )).getText().toString()));
+							try {
+								cb.descifrarFichero(archivo + ".crypt", archivo);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} 
+
+							t.cancel();
+							t = Toast.makeText(ctx, "Archivo descifrado creado en " + archivo , Toast.LENGTH_SHORT );
+							t.show();
+							pw.dismiss();
+							}
+							
+					});
+					
 				}
 			}
 		});
